@@ -1,7 +1,11 @@
-# Netlify のビルド設定。Next.js は Netlify が自動で検出し、OpenNext アダプターで動かす
+# Netlify のビルド設定
 [build]
   command = "pnpm build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Next.js を Netlify の関数として動かすランタイム（自動検出に頼らず明示する）
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
