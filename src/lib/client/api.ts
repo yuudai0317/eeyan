@@ -19,7 +19,13 @@ export class ApiClientError extends Error {
 const NETWORK_MESSAGE = '通信できませんでした。電波の良いところで、もう一度お試しください。';
 
 async function request<T>(method: 'GET' | 'POST', path: string, body?: object): Promise<T> {
-  const token = await getAccessToken();
+  let token: string;
+  try {
+    token = await getAccessToken();
+  } catch (e) {
+    const detail = e instanceof Error ? e.message : String(e);
+    throw new ApiClientError(0, 'AUTH', `匿名ログインに失敗しました。（${detail}）`);
+  }
   const sentAt = Date.now();
   let res: Response;
   try {

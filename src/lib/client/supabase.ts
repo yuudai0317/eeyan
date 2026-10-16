@@ -6,7 +6,14 @@ let client: SupabaseClient | null = null;
 
 /** ブラウザ用の Supabase クライアント。匿名セッションは localStorage に保存され、同じ端末なら同じプレイヤーとして復帰できる */
 export function supabase(): SupabaseClient {
-  client ??= createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) {
+    throw new Error(
+      '環境変数 NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY が設定されていません。設定後に再デプロイしてください。',
+    );
+  }
+  client ??= createClient(url, key, {
     auth: { persistSession: true, autoRefreshToken: true, storageKey: 'eeyan-auth' },
     realtime: { params: { eventsPerSecond: 20 } },
   });
