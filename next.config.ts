@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
     },
   },
   poweredByHeader: false,
+  // 開発時の左下のインジケーターがボタンに重なるので消す
+  devIndicators: false,
 };
 
 export default nextConfig;

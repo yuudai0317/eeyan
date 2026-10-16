@@ -1,26 +1,284 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+/*
+ * ええやん のデザイン
+ * - わら半紙のようなオフホワイト、焦げ茶の文字、少しくすんだアクセント色
+ * - ぼかさない「真下にずらしたベタ影」で紙を重ねたような質感
+ * - ダークモードは純黒ではなくこげ茶
+ */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --paper: #f5eedf;
+  --paper-deep: #ebe0c8;
+  --card: #fffaf0;
+  --ink: #3b2a20;
+  --ink-soft: #6b5544;
+  --shadow: #3b2a20;
+  --shu: #b33c28; /* 朱色（ハンコ）。白文字のボタンにも使える濃さ */
+  --shu-ink: #c8442e;
+  --karashi: #d3a03a;
+  --mizu: #a9c6d0;
+  --wakakusa: #b5ca86;
+  --on-accent: #fffaf0;
+  --focus: #2f6f8a;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-body: 'Zen Maru Gothic';
+  --font-card-face: 'Kiwi Maru';
+  --font-hand-face: 'Yusei Magic';
+
+  --cat-hook: #e09a6d;
+  --cat-question: #8fb4c2;
+  --cat-pain: #a9a0c4;
+  --cat-benefit: #a6c074;
+  --cat-future: #7fb3ae;
+  --cat-authority: #d6b25c;
+  --cat-social: #e0a0b0;
+  --cat-scarcity: #d96a55;
+  --cat-story: #b8916d;
+  --cat-emotion: #eb9c8d;
+  --cat-price: #c4b85a;
+  --cat-closing: #7ea58a;
+
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #2a211b;
+    --paper-deep: #221a15;
+    --card: #3a2e25;
+    --ink: #efe3cf;
+    --ink-soft: #c9b79e;
+    --shadow: #120d0a;
+    --shu: #e5735b;
+    --shu-ink: #ef8068;
+    --karashi: #e3b04b;
+    --mizu: #6d8f9b;
+    --wakakusa: #7f9656;
+    --on-accent: #2a211b;
+    --focus: #8cc6dc;
+    color-scheme: dark;
   }
 }
 
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-shu: var(--shu);
+  --color-shu-ink: var(--shu-ink);
+  --color-karashi: var(--karashi);
+  --color-mizu: var(--mizu);
+  --color-wakakusa: var(--wakakusa);
+  --color-on-accent: var(--on-accent);
+  --font-sans: var(--font-body), 'Hiragino Maru Gothic ProN', 'Yu Gothic', sans-serif;
+  --font-card: var(--font-card-face), var(--font-body), sans-serif;
+  --font-hand: var(--font-hand-face), var(--font-card-face), sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--paper);
+  /* わら半紙っぽい、ごく薄いざらつき */
+  background-image:
+    radial-gradient(circle at 20% 30%, rgb(120 90 50 / 0.05) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 70% 80%, rgb(120 90 50 / 0.04) 0 1px, transparent 1.5px);
+  background-size: 7px 7px, 11px 11px;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* ─── 紙っぽい部品 ──────────────────────────── */
+
+.paper {
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 18px 14px 20px 15px / 15px 20px 14px 18px;
+  box-shadow: 3px 4px 0 var(--shadow);
+}
+
+.paper-flat {
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 14px 11px 15px 12px / 12px 15px 11px 14px;
+}
+
+/* ぷっくりした、押すと沈むボタン */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  min-height: 52px;
+  padding: 0.55em 1.4em;
+  border: 2.5px solid var(--ink);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  box-shadow: 0 5px 0 var(--shadow);
+  transform: translateY(0);
+  transition: transform 80ms ease-out, box-shadow 80ms ease-out;
+  user-select: none;
+  touch-action: manipulation;
+}
+.btn:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--shadow);
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: 0 2px 0 var(--shadow);
+}
+.btn-primary {
+  background: var(--shu);
+  color: var(--on-accent);
+}
+.btn-secondary {
+  background: var(--karashi);
+  color: #3b2a20;
+}
+.btn-plain {
+  background: var(--card);
+  color: var(--ink);
+}
+.btn-small {
+  min-height: 44px;
+  padding: 0.3em 1em;
+  font-size: 0.95rem;
+  box-shadow: 0 3px 0 var(--shadow);
+}
+.btn-small:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--shadow);
+}
+
+.input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0.5em 0.9em;
+  background: var(--card);
+  color: var(--ink);
+  border: 2.5px solid var(--ink);
+  border-radius: 14px 11px 15px 12px / 12px 15px 11px 14px;
+  font-size: 1.1rem;
+}
+.input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.8;
+}
+
+.font-hand {
+  font-family: var(--font-hand);
+}
+.font-card {
+  font-family: var(--font-card);
+}
+
+/* ─── 動き（控えめ・短く） ─────────────────────── */
+
+@keyframes deal-pop {
+  0% {
+    transform: translateY(18px) scale(0.6) rotate(var(--tilt, 0deg));
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-4px) scale(1.06) rotate(var(--tilt, 0deg));
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(var(--tilt, 0deg));
+  }
+}
+.anim-deal {
+  animation: deal-pop 380ms cubic-bezier(0.3, 1.4, 0.6, 1) both;
+}
+
+@keyframes stamp-press {
+  0% {
+    transform: scale(2.6) rotate(-28deg);
+    opacity: 0;
+  }
+  55% {
+    transform: scale(0.9) rotate(-11deg);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.04) rotate(-12deg);
+  }
+  100% {
+    transform: scale(1) rotate(-12deg);
+    opacity: 1;
+  }
+}
+@keyframes ink-bleed {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  100% {
+    opacity: 0.35;
+    transform: scale(1.12);
+  }
+}
+.anim-stamp {
+  animation: stamp-press 420ms cubic-bezier(0.2, 0.9, 0.3, 1.2) 250ms both;
+}
+.anim-ink {
+  animation: ink-bleed 700ms ease-out 520ms both;
+}
+
+@keyframes jitter {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0);
+  }
+  25% {
+    transform: translateX(-1.5px) rotate(-0.6deg);
+  }
+  75% {
+    transform: translateX(1.5px) rotate(0.6deg);
+  }
+}
+.anim-jitter {
+  animation: jitter 260ms linear infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.anim-fade {
+  animation: fade-up 260ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
 }
