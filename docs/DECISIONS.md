@@ -15,7 +15,7 @@
 - 仕様では「Route Handler → Supabase service role キー」だったが、supabase-js では複数テーブルにまたがる
   トランザクションが組めない（判定では「加点・勝者・フェーズ・山札」を同時に書き換える必要がある）。
 - そこで `DATABASE_URL`（postgres ロール。RLS を通らない）で接続し、全操作を1トランザクションで行う。
-  Vercel では Supabase の接続プール（Transaction mode, 6543番）を使う前提で `prepare: false`。
+  本番（Netlify の関数）では Supabase の接続プール（Transaction mode, 6543番）を使う前提で `prepare: false`。
 - 結果として service role キーは不要になった。JWT の検証には anon key（公開してよい値）を使う。
 - `DATABASE_URL` は service role キーと同等以上に強い権限なので、`NEXT_PUBLIC_` を付けないこと（`.env.example` に明記）。
 
@@ -32,7 +32,7 @@
 
 ### D-05 レート制限はメモリ内の簡易版
 - 同一ユーザー・1秒あたり、操作系 5 回 / 状態取得 10 回（`src/lib/server/rateLimit.ts`）。
-- Vercel ではインスタンスごとに数えるので厳密ではない。厳密にするなら Upstash Redis などに置き換える（未対応）。
+- Netlify の関数ではインスタンスごとに数えるので厳密ではない。厳密にするなら Upstash Redis などに置き換える（未対応）。
 
 ## ゲームロジック
 
@@ -144,6 +144,10 @@
 ### D-26 ゲーム終了の流れ
 - 目標点に達したラウンドの結果画面では、ボタンが「次いこか」ではなく「結果発表いこか」になり、押すとゲーム終了画面へ進む。
 - ホストはゲーム中いつでも画面下の「ゲームを終える」で終了できる（確認ダイアログあり）。
+
+### D-27 デプロイ先は Netlify
+- 仕様では Vercel だったが、利用者の判断で Netlify にした。Next.js は Netlify の OpenNext アダプターで動き、
+  Route Handler はサーバーレス関数になる。設定は `netlify.toml`（ビルドコマンドと Node.js 22）だけ。
 
 ## 未対応・今後の課題
 

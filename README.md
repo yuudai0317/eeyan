@@ -12,7 +12,7 @@
 
 | 領域 | 技術 |
 |---|---|
-| 画面・API | Next.js 16（App Router）+ TypeScript + Tailwind CSS v4 |
+| 画面・API | Next.js 16（App Router）+ TypeScript + Tailwind CSS v4（Netlify にデプロイ） |
 | DB・同期・認証 | Supabase（Postgres + Realtime + 匿名認証） |
 | サーバーからDBへ | postgres.js（直接接続・トランザクション） |
 | 並べ替え | dnd-kit |
@@ -86,10 +86,11 @@ pnpm typecheck && pnpm lint
    - 「Project Settings → API」：Project URL と anon（publishable）key
    - 「Connect」ボタン → **Transaction pooler**（ポート 6543）の接続文字列。パスワードはプロジェクト作成時のもの
 
-## Vercel へのデプロイ
+## Netlify へのデプロイ
 
-1. このリポジトリを Vercel にインポートします（Framework Preset は Next.js のまま）。
-2. Environment Variables に次の3つを設定します。
+1. Netlify で「Add new project → Import an existing project」から、この GitHub リポジトリを選びます。
+   ビルド設定は `netlify.toml` に書いてあるので、画面の値はそのままで構いません（Build command `pnpm build`、Publish directory `.next`）。
+2. 「Project configuration → Environment variables」に次の3つを設定します。
 
    | 名前 | 値 |
    |---|---|
@@ -98,8 +99,11 @@ pnpm typecheck && pnpm lint
    | `DATABASE_URL` | Transaction pooler の接続文字列（`...pooler.supabase.com:6543/postgres`） |
 
    `DATABASE_URL` は RLS を通らない強い権限を持つので、**`NEXT_PUBLIC_` を付けないでください**。
-3. デプロイします。Function のリージョンは Supabase と同じ地域（例：Tokyo `hnd1`）にすると速くなります。
-4. デプロイ後、トップページから部屋を作り、別の端末から参加できることを確認します。
+   `NEXT_PUBLIC_` の値はビルド時に埋め込まれるため、変更したら再デプロイが必要です。
+3. デプロイします。
+4. 「Project configuration → Build & deploy → Functions → Region」で、関数のリージョンを Supabase と同じ地域
+   （例：Asia Pacific (Tokyo)）にすると速くなります（変更できるかはプランによります）。
+5. デプロイ後、トップページから部屋を作り、別の端末から参加できることを確認します。
 
 ## カードデータの編集
 

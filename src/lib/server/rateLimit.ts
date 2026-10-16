@@ -2,7 +2,7 @@ import 'server-only';
 
 /**
  * 簡易レート制限（同一ユーザー・1秒あたりの回数）。
- * サーバーのメモリ内で数えるので、Vercel で複数インスタンスが動くと厳密ではない（docs/DECISIONS.md 参照）。
+ * サーバーのメモリ内で数えるので、Netlify の関数で複数インスタンスが動くと厳密ではない（docs/DECISIONS.md 参照）。
  */
 const WINDOW_MS = 1000;
 const LIMITS = { action: 5, read: 10 } as const;

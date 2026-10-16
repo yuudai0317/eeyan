@@ -1,0 +1,7 @@
+# Netlify のビルド設定。Next.js は Netlify が自動で検出し、OpenNext アダプターで動かす
+[build]
+  command = "pnpm build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
