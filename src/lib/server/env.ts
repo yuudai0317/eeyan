@@ -14,7 +14,8 @@ export const serverEnv = {
   get supabaseUrl() {
     return required('NEXT_PUBLIC_SUPABASE_URL');
   },
+  /** Supabase の新しい名前（PUBLISHABLE_KEY）と従来の名前（ANON_KEY）のどちらでも読む */
   get supabaseAnonKey() {
-    return required('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+    return process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || required('NEXT_PUBLIC_SUPABASE_ANON_KEY');
   },
 };

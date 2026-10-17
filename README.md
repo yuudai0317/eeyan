@@ -95,7 +95,7 @@ pnpm typecheck && pnpm lint
    | 名前 | 値 |
    |---|---|
    | `NEXT_PUBLIC_SUPABASE_URL` | Supabase の Project URL |
-   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | anon（publishable）key |
+   | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`（従来の `NEXT_PUBLIC_SUPABASE_ANON_KEY` でも可） | publishable key（または anon key） |
    | `DATABASE_URL` | Transaction pooler の接続文字列（`...pooler.supabase.com:6543/postgres`） |
 
    `DATABASE_URL` は RLS を通らない強い権限を持つので、**`NEXT_PUBLIC_` を付けないでください**。
