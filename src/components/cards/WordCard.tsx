@@ -24,8 +24,11 @@ export function WordCard({
   delayIndex = 0,
   tilt = true,
   className = '',
+  hint,
   children,
 }: {
+  /** お題に合わせたヒント（本人の手札にだけ出す） */
+  hint?: string | null;
   cardId: string;
   /** 並び順の番号（1〜3） */
   order?: number;
@@ -73,6 +76,13 @@ export function WordCard({
         )}
       </div>
       <p className={`font-card ${s.text} leading-snug break-words`}>{word.text}</p>
+      {hint && (
+        <p className="mt-1.5 border-t-2 border-dashed border-ink/25 pt-1.5 text-sm leading-snug text-ink-soft">
+          <span aria-hidden="true">💡 </span>
+          <span className="sr-only">ヒント：</span>
+          {hint}
+        </p>
+      )}
       {children}
     </div>
   );

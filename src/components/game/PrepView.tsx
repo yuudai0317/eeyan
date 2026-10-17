@@ -57,6 +57,7 @@ function ChildPrep({ snapshot }: { snapshot: RoomSnapshot }) {
         </div>
         <div key={round.id}>
           <SortableHand
+            topicId={round.topicId}
             order={order}
             onChange={reorder}
             swapMode={swapMode}

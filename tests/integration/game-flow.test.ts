@@ -254,6 +254,22 @@ describe('タイマーと楽観ロック', () => {
   });
 });
 
+describe('該当なし', () => {
+  it('親は「該当なし」を選べて、誰にも点が入らない', async () => {
+    const { code, uids, uidOf } = await setupRoom(3);
+    let { snapshot: snap } = await startGame(uids[0], code);
+    for (const pid of snap.round!.pitchOrder) snap = (await setReady(uidOf.get(pid)!, code, true)).snapshot;
+    while (snap.round!.phase === 'pitch') snap = (await endPitch(uids[0], code, snap.round!.version)).snapshot;
+    const parentUid = uidOf.get(snap.round!.parentId)!;
+    const r = await judge(parentUid, code, null, snap.round!.version);
+    expect(r.snapshot.round!.phase).toBe('result');
+    expect(r.snapshot.round!.winnerId).toBeNull();
+    expect(r.snapshot.players.every((p) => p.score === 0)).toBe(true);
+    const next = await nextRound(parentUid, code, r.snapshot.round!.version);
+    expect(next.snapshot.round!.roundNo).toBe(2);
+  });
+});
+
 describe('カード交換', () => {
   it('ONなら準備中に1回だけ交換できる', async () => {
     const { code, uids, uidOf } = await setupRoom(3, { allowSwap: true });

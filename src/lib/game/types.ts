@@ -31,6 +31,8 @@ export interface WordCard {
   id: string;
   text: string;
   category: CategoryId;
+  /** お題に合わせたヒント（任意）。{item} がお題の商品名に置き換わる。なければカテゴリ共通のヒントを使う */
+  hint?: string;
 }
 
 export interface TopicCard {

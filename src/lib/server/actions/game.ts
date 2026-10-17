@@ -124,8 +124,8 @@ export function endPitch(uid: string, code: string, version: number | undefined)
   });
 }
 
-/** 親が「ええやん！」で勝者を1人選ぶ */
-export function judge(uid: string, code: string, winnerPlayerId: string, version: number | undefined) {
+/** 親が「ええやん！」で勝者を1人選ぶ。「該当なし」（winnerPlayerId = null）も選べる */
+export function judge(uid: string, code: string, winnerPlayerId: string | null, version: number | undefined) {
   return withRoom(code, uid, async (ctx) => {
     const me = requireMe(ctx);
     const round = requireRound(ctx);
@@ -145,6 +145,17 @@ export function judge(uid: string, code: string, winnerPlayerId: string, version
 
     const pitches = await getPitches(ctx.tx, round.id);
     const candidates = pitches.filter((p) => !p.skipped).map((p) => p.playerId);
+
+    if (winnerPlayerId === null) {
+      ctx.round = await updateRound(ctx.tx, round, {
+        phase: 'result',
+        winnerPlayerId: null,
+        phaseStartedAt: ctx.now,
+        phaseEndsAt: null,
+      });
+      return respond(ctx);
+    }
+
     let result;
     try {
       result = applyJudge(

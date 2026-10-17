@@ -72,7 +72,8 @@ export const api = {
   advance: (code: string, version: number) =>
     request<SnapshotResult>('POST', '/api/phase/advance', { code, version }),
   endPitch: (code: string, version: number) => request<SnapshotResult>('POST', '/api/pitch/end', { code, version }),
-  judge: (code: string, winnerPlayerId: string, version: number) =>
+  /** winnerPlayerId が null なら「該当なし」 */
+  judge: (code: string, winnerPlayerId: string | null, version: number) =>
     request<SnapshotResult>('POST', '/api/judge', { code, winnerPlayerId, version }),
   nextRound: (code: string, version: number) => request<SnapshotResult>('POST', '/api/round/next', { code, version }),
 };

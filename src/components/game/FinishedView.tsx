@@ -65,7 +65,7 @@ export function FinishedView({ snapshot, view }: { snapshot: RoomSnapshot; view:
                   <p className="text-sm font-bold text-ink-soft">{ja.finished.historyRound(h.roundNo)}</p>
                   {topic && <p className="font-card mb-1 text-lg">{topicText(topic, showPrice)}</p>}
                   <p className="mb-2 font-bold">
-                    {h.winnerId ? ja.result.winner(view.nameOf(h.winnerId)) : ja.result.noWinner}
+                    {h.winnerId ? ja.result.winner(view.nameOf(h.winnerId)) : ja.result.noPoint}
                   </p>
                   <div className="flex flex-col gap-2">
                     {h.cardIds.map((id, i) => (

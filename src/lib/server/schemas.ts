@@ -35,7 +35,8 @@ export const schemas = {
   swap: z.object({ code, cardId: z.string() }),
   ready: z.object({ code, ready: z.boolean().default(true) }),
   withVersion: z.object({ code, version }),
-  judge: z.object({ code, winnerPlayerId: playerId, version }),
+  // winnerPlayerId が null なら「該当なし」
+  judge: z.object({ code, winnerPlayerId: playerId.nullable(), version }),
   lowPlayers: z.object({ code, decision: z.enum(['continue', 'end']) }),
 };
 

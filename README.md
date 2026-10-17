@@ -133,6 +133,7 @@ pnpm typecheck && pnpm lint
 | `id` | 重複しないID（`w` + 番号） |
 | `text` | 2〜15文字。標準語の営業フレーズ |
 | `category` | `hook` `question` `pain` `benefit` `future` `authority` `social` `scarcity` `story` `emotion` `price` `closing` のいずれか |
+| `hint`（任意） | お題に合わせたヒント。`{item}` が「この＋商品名」に置き換わる。省略するとカテゴリ共通のヒント（`src/data/categories.ts`）を使う |
 
 - カテゴリの表示名と色は `src/data/categories.ts` で変えられます。
 - 各カテゴリ15枚以上あると、カテゴリ分散配布がうまく働きます。

@@ -127,6 +127,8 @@ export const ja = {
     confirm: (name: string) => `${name}さんに「ええやん！」する？`,
     submit: 'ええやん！',
     thinking: (name: string) => `${name}さん、悩んでます…`,
+    noWinner: 'うーん、該当なし',
+    noWinnerConfirm: '今回は「該当なし」にする？（誰にも点は入りません）',
     proxyNote: '親の接続が切れたままなので、ホストが代わりに判定できます。',
   },
 
@@ -134,6 +136,8 @@ export const ja = {
     winner: (name: string) => `${name}さんの勝ち！`,
     plusOne: '+1点',
     noWinner: '今回は発表できる人がおらんかったので、ポイントなしです',
+    noneChosen: '今回は「ええやん」ならず。ポイントなしです',
+    noPoint: 'ポイントなし',
     next: '次いこか',
     toFinal: '結果発表いこか',
     waitingNext: 'ホストか親が次に進めるのを待ってます',

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CATEGORY_IDS } from '@/data/categories';
-import { TOPICS, WORDS } from '@/lib/cards';
+import { hintFor, TOPICS, WORDS } from '@/lib/cards';
 
 /** カードデータを編集したときに壊れていないかを確かめるテスト */
 describe('カードデータ', () => {
@@ -40,6 +40,17 @@ describe('カードデータ', () => {
       expect(t.price, t.item).toBeGreaterThanOrEqual(300);
       expect(t.price, t.item).toBeLessThanOrEqual(1_000_000);
       expect(t.note === null || typeof t.note === 'string').toBe(true);
+    }
+  });
+});
+
+describe('ヒント', () => {
+  it('すべてのカードに、お題の商品名入りのヒントが出る', () => {
+    const topic = TOPICS[0];
+    for (const w of WORDS) {
+      const hint = hintFor(w.id, topic.id);
+      expect(hint, w.id).toContain(`この${topic.item}`);
+      expect(hint).not.toContain('{item}');
     }
   });
 });

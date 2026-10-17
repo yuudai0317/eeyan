@@ -68,3 +68,4 @@ describe('judgeAuthority', () => {
     expect(judgeAuthority({ ...base, actorId: 'h', parentConnected: false, phaseStartedAt: startedAt + 1 })).toBeNull();
   });
 });
+

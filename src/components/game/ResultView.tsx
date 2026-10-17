@@ -54,7 +54,9 @@ export function ResultView({ snapshot, view }: { snapshot: RoomSnapshot; view: V
           </div>
         </section>
       ) : (
-        <p className="paper-flat px-4 py-6 text-center font-bold">{ja.result.noWinner}</p>
+        <p className="paper-flat px-4 py-6 text-center font-bold">
+          {snapshot.pitches.some((p) => !p.skipped) ? ja.result.noneChosen : ja.result.noWinner}
+        </p>
       )}
 
       {canNext ? (

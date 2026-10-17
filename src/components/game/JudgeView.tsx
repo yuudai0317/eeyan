@@ -20,6 +20,7 @@ export function JudgeView({ snapshot, view }: { snapshot: RoomSnapshot; view: Vi
   const { run, busy } = useAction();
   const [selected, setSelected] = useState<string | null>(null);
   const [confirming, setConfirming] = useState(false);
+  const [confirmingNone, setConfirmingNone] = useState(false);
 
   const parent = view.byId.get(round.parentId);
   const proxy =
@@ -91,6 +92,30 @@ export function JudgeView({ snapshot, view }: { snapshot: RoomSnapshot; view: Vi
           {ja.judge.submit}
         </button>
       )}
+
+      {canJudge && (
+        <button
+          type="button"
+          className="btn btn-plain btn-small mx-auto"
+          disabled={busy}
+          onClick={() => setConfirmingNone(true)}
+        >
+          {ja.judge.noWinner}
+        </button>
+      )}
+
+      <ConfirmDialog
+        open={confirmingNone}
+        title={ja.judge.noWinnerConfirm}
+        confirmLabel={ja.judge.noWinner}
+        cancelLabel={ja.common.cancel}
+        busy={busy}
+        onCancel={() => setConfirmingNone(false)}
+        onConfirm={async () => {
+          await run(() => api.judge(code, null, round.version));
+          setConfirmingNone(false);
+        }}
+      />
 
       <ConfirmDialog
         open={confirming && !!selected}

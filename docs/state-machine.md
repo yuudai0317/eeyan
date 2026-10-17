@@ -16,7 +16,7 @@ stateDiagram-v2
         prep --> result: 発表できる子が0人（該当なし）
         pitch --> pitch: 時間切れ / 以上です！（次の人がいる）
         pitch --> judge: 時間切れ / 以上です！（最後の人）
-        judge --> result: 親が「ええやん！」で1人選ぶ
+        judge --> result: 親が「ええやん！」で1人選ぶ / 該当なし
         result --> prep: 次いこか（目標点に未到達・親が交代）
     }
 

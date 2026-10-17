@@ -20,7 +20,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { WordCard } from '@/components/cards/WordCard';
 import { ja } from '@/i18n/ja';
-import { getWord } from '@/lib/cards';
+import { getWord, hintFor } from '@/lib/cards';
 
 function SortableCard({
   id,
@@ -31,7 +31,9 @@ function SortableCard({
   onSwap,
   disabled,
   animate,
+  topicId,
 }: {
+  topicId: string;
   id: string;
   index: number;
   count: number;
@@ -57,7 +59,7 @@ function SortableCard({
         {...listeners}
         aria-roledescription="並べ替えできるカード"
       >
-        <WordCard cardId={id} order={index + 1} animate={animate} delayIndex={index} />
+        <WordCard cardId={id} order={index + 1} animate={animate} delayIndex={index} hint={hintFor(id, topicId)} />
       </div>
       <div className="flex shrink-0 flex-col justify-center gap-2">
         {swapMode ? (
@@ -101,7 +103,10 @@ export function SortableHand({
   onSwap = () => {},
   disabled = false,
   animate = false,
+  topicId,
 }: {
+  /** お題（カードのヒントに使う） */
+  topicId: string;
   order: string[];
   onChange: (next: string[]) => void;
   swapMode?: boolean;
@@ -137,6 +142,7 @@ export function SortableHand({
               onSwap={onSwap}
               disabled={disabled || swapMode}
               animate={animate}
+              topicId={topicId}
             />
           ))}
         </ol>

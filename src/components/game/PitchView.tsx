@@ -2,6 +2,7 @@
 
 import { TopicCard } from '@/components/cards/TopicCard';
 import { WordCard } from '@/components/cards/WordCard';
+import { hintFor } from '@/lib/cards';
 import { ja } from '@/i18n/ja';
 import { api } from '@/lib/client/api';
 import { useAction } from '@/lib/client/useAction';
@@ -41,7 +42,7 @@ export function PitchView({ snapshot, view }: { snapshot: RoomSnapshot; view: Vi
       <ol className="flex flex-col gap-3" key={presenterId ?? 'none'} aria-label="発表中のカード">
         {(pitch?.cardIds ?? []).map((id, i) => (
           <li key={id}>
-            <WordCard cardId={id} order={i + 1} size="lg" animate delayIndex={i} />
+            <WordCard cardId={id} order={i + 1} size="lg" animate delayIndex={i} hint={isMe ? hintFor(id, round.topicId) : null} />
           </li>
         ))}
       </ol>
