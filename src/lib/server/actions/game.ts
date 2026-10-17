@@ -32,10 +32,10 @@ async function respond(ctx: RoomContext) {
   return { snapshot: await buildSnapshot(ctx) };
 }
 
-/** ゲーム開始：山札を作り、初回の親をランダムに決めて第1ラウンドを始める */
+/** ゲーム開始（参加者なら誰でも）：山札を作り、初回の親をランダムに決めて第1ラウンドを始める */
 export function startGame(uid: string, code: string) {
   return withRoom(code, uid, async (ctx) => {
-    requireHost(ctx);
+    requireMe(ctx);
     if (ctx.room.status !== 'lobby') throw errors.wrongPhase('ゲームはすでに始まっています。');
     if (activePlayers(ctx).length < MIN_PLAYERS) throw errors.notEnoughPlayers(MIN_PLAYERS);
 
@@ -50,10 +50,10 @@ export function startGame(uid: string, code: string) {
   });
 }
 
-/** もういっかい：得点を0に戻し、同じメンバーで再戦する。山札は続きから使う（直前のゲームと同じカードが出にくい） */
+/** もういっかい（参加者なら誰でも）：得点を0に戻し、同じメンバーで再戦する。親はランダムで決め直す。山札は続きから使う */
 export function rematch(uid: string, code: string) {
   return withRoom(code, uid, async (ctx) => {
-    requireHost(ctx);
+    requireMe(ctx);
     if (ctx.room.status !== 'finished') throw errors.wrongPhase('ゲームが終わってから再戦できます。');
     if (activePlayers(ctx).length < MIN_PLAYERS) throw errors.notEnoughPlayers(MIN_PLAYERS);
 

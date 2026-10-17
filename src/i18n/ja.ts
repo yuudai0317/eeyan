@@ -77,7 +77,7 @@ export const ja = {
     kickConfirm: (name: string) => `${name}さんを退出させますか？`,
     start: 'はじめよか',
     needMore: (n: number) => `あと${n}人そろったら始められるで`,
-    waitingHost: 'ホストが始めるのを待ってます',
+    startNote: '誰が押してもOK。最初の親はランダムで決まるで',
     leave: 'ぬける',
     leaveConfirm: 'このルームからぬけますか？',
   },
@@ -152,7 +152,6 @@ export const ja = {
     history: 'ふりかえり（勝ちトーク）',
     historyRound: (n: number) => `第${n}ラウンド`,
     rematch: 'もういっかい',
-    waitingRematch: 'ホストが「もういっかい」を押すのを待ってます',
   },
 
   lowPlayers: {

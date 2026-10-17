@@ -134,23 +134,22 @@ export function Lobby({ snapshot, view }: { snapshot: RoomSnapshot; view: View }
         </ul>
       </section>
 
-      {view.isHost ? (
-        <div className="flex flex-col items-center gap-2">
-          <button
-            type="button"
-            className="btn btn-primary w-full text-xl"
-            disabled={need > 0 || busy}
-            onClick={() => run(() => api.start(code))}
-          >
-            {ja.lobby.start}
-          </button>
-          {need > 0 && <p className="font-bold">{ja.lobby.needMore(need)}</p>}
-        </div>
-      ) : (
-        <p className="text-center font-bold">
-          {need > 0 ? ja.lobby.needMore(need) : ja.lobby.waitingHost}
-        </p>
-      )}
+      {/* 参加者なら誰でも始められる。最初の親はランダムで決まる */}
+      <div className="flex flex-col items-center gap-2">
+        <button
+          type="button"
+          className="btn btn-primary w-full text-xl"
+          disabled={need > 0 || busy}
+          onClick={() => run(() => api.start(code))}
+        >
+          {ja.lobby.start}
+        </button>
+        {need > 0 ? (
+          <p className="font-bold">{ja.lobby.needMore(need)}</p>
+        ) : (
+          <p className="text-sm text-ink-soft">{ja.lobby.startNote}</p>
+        )}
+      </div>
 
       <div className="mt-8 text-center">
         <button type="button" className="min-h-11 px-3 text-sm underline underline-offset-4" onClick={() => setLeaving(true)}>

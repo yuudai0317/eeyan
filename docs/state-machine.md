@@ -9,7 +9,7 @@ stateDiagram-v2
     direction LR
     [*] --> lobby: ルーム作成
 
-    lobby --> prep: はじめよか（ホスト・2名以上）
+    lobby --> prep: はじめよか（参加者の誰でも・2名以上）
 
     state playing {
         prep --> pitch: 時間切れ / 子が全員「いけるで！」
@@ -22,7 +22,7 @@ stateDiagram-v2
 
     result --> finished: 結果発表いこか（目標点に到達）
     playing --> finished: ホストが終了 / 人数不足で「終了」
-    finished --> prep: もういっかい（ホスト・得点リセット）
+    finished --> prep: もういっかい（参加者の誰でも・得点リセット）
     finished --> [*]: 作成から24時間で削除
 ```
 
@@ -30,13 +30,13 @@ stateDiagram-v2
 
 | 遷移 | 誰が起こすか | API |
 |---|---|---|
-| lobby → prep | ホスト | `/api/game/start` |
+| lobby → prep | 参加者の誰でも | `/api/game/start` |
 | prep → pitch | 誰でも（締め切り後）／最後に「いけるで！」を押した子 | `/api/phase/advance`・`/api/hand/ready` |
 | pitch → pitch / judge | 誰でも（締め切り後）／発表者・親・ホスト | `/api/phase/advance`・`/api/pitch/end` |
 | judge → result | 親（親が切断して60秒たったらホストも可） | `/api/judge` |
 | result → prep / finished | ホスト・親 | `/api/round/next` |
 | playing → finished | ホスト | `/api/game/end`・`/api/game/low-players` |
-| finished → prep | ホスト | `/api/game/rematch` |
+| finished → prep | 参加者の誰でも | `/api/game/rematch` |
 
 - 締め切り（`rounds.phase_ends_at`）はサーバー時刻で保存し、サーバーが時刻を確かめてから進めます。
   複数の端末が同時に `/api/phase/advance` を呼んでも、ルーム行のロックと `rounds.version` の確認により1回しか進みません。

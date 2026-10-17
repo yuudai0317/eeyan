@@ -47,12 +47,13 @@ describe('ルームとロビー', () => {
     expect(r.snapshot.meId).toBe(players[1].id);
   });
 
-  it('2名未満では開始できない。ホスト以外は開始できない', async () => {
+  it('2名未満では開始できない。2名そろえばホスト以外でも開始できる', async () => {
     const { code, uids } = await setupRoom(1);
     await expectApiError(startGame(uids[0], code), 409, 'NOT_ENOUGH_PLAYERS');
     const guest = newUid();
     await joinRoom(guest, code, 'ふたり目');
-    await expectApiError(startGame(guest, code), 403, 'HOST_ONLY');
+    const r = await startGame(guest, code);
+    expect(r.snapshot.room.status).toBe('playing');
   });
 
   it('ゲーム開始後は新規参加できない', async () => {
@@ -145,8 +146,9 @@ describe('1ラウンドの流れ', () => {
     // 発表中は並べ替えできない
     await expectApiError(arrangeHand(firstUid, code, hand, undefined), 409, 'WRONG_PHASE');
 
-    // 発表者以外の子は発表を終えられない
-    await expectApiError(endPitch(uidOf.get(round.pitchOrder[1])!, code, undefined), 403);
+    // 発表者でもホストでもない子は発表を終えられない
+    const bystander = round.pitchOrder.slice(1).find((pid) => pid !== players[0].id)!;
+    await expectApiError(endPitch(uidOf.get(bystander)!, code, undefined), 403);
     let snap = (await endPitch(firstUid, code, ready.snapshot.round!.version)).snapshot;
     expect(snap.round!.currentPitchIndex).toBe(1);
     // 古い version は409
@@ -224,8 +226,8 @@ describe('ゲーム全体', () => {
     // 同じゲーム内でお題は重複しない
     expect(topics.size).toBe(rounds);
 
-    await expectApiError(rematch(uids[1], code), 403);
-    const again = (await rematch(uids[0], code)).snapshot;
+    // ホスト以外でも再戦できる
+    const again = (await rematch(uids[1], code)).snapshot;
     expect(again.room.status).toBe('playing');
     expect(again.round!.roundNo).toBe(1);
     expect(again.players.every((p) => p.score === 0)).toBe(true);

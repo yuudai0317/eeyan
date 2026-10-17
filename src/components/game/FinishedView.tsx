@@ -79,13 +79,9 @@ export function FinishedView({ snapshot, view }: { snapshot: RoomSnapshot; view:
         </section>
       )}
 
-      {view.isHost ? (
-        <button type="button" className="btn btn-primary w-full text-xl" disabled={busy} onClick={() => run(() => api.rematch(code))}>
-          {ja.finished.rematch}
-        </button>
-      ) : (
-        <p className="text-center font-bold">{ja.finished.waitingRematch}</p>
-      )}
+      <button type="button" className="btn btn-primary w-full text-xl" disabled={busy} onClick={() => run(() => api.rematch(code))}>
+        {ja.finished.rematch}
+      </button>
       <div className="mt-6 text-center">
         <Link href="/" className="inline-flex min-h-11 items-center px-3 underline underline-offset-4">
           {ja.common.toTop}
