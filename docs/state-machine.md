@@ -9,7 +9,7 @@ stateDiagram-v2
     direction LR
     [*] --> lobby: ルーム作成
 
-    lobby --> prep: はじめよか（ホスト・3名以上）
+    lobby --> prep: はじめよか（ホスト・2名以上）
 
     state playing {
         prep --> pitch: 時間切れ / 子が全員「いけるで！」

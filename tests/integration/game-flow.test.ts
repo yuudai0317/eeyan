@@ -47,11 +47,12 @@ describe('ルームとロビー', () => {
     expect(r.snapshot.meId).toBe(players[1].id);
   });
 
-  it('3名未満では開始できない。ホスト以外は開始できない', async () => {
-    const { code, uids } = await setupRoom(2);
+  it('2名未満では開始できない。ホスト以外は開始できない', async () => {
+    const { code, uids } = await setupRoom(1);
     await expectApiError(startGame(uids[0], code), 409, 'NOT_ENOUGH_PLAYERS');
-    await joinRoom(newUid(), code, 'さん');
-    await expectApiError(startGame(uids[1], code), 403, 'HOST_ONLY');
+    const guest = newUid();
+    await joinRoom(guest, code, 'ふたり目');
+    await expectApiError(startGame(guest, code), 403, 'HOST_ONLY');
   });
 
   it('ゲーム開始後は新規参加できない', async () => {
@@ -324,7 +325,7 @@ describe('切断と離脱', () => {
     const { code, uids } = await setupRoom(3);
     await startGame(uids[0], code);
     const c = await decideLowPlayers(uids[0], code, 'continue');
-    // 3人そろっているので、次の操作で自動的に解除される
+    // 最少人数以上そろっているので、次の操作で自動的に解除される
     expect(c.snapshot.room.lowPlayerDecision).toBe('continue');
     const e = await decideLowPlayers(uids[0], code, 'end');
     expect(e.snapshot.room.status).toBe('finished');

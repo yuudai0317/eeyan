@@ -14,7 +14,7 @@ export const ja = {
     join: 'まぜてー',
     joinSub: 'コードで参加',
     howTo: '遊び方',
-    lead: '「このボールペンを1万円で売ってください」\n配られた3枚の言葉で、親をその気にさせよう。',
+    lead: '無理めなお題の商品を、配られた3枚の言葉で売り込もう。\n親をその気にさせたら勝ち！',
   },
 
   common: {
@@ -152,7 +152,7 @@ export const ja = {
   },
 
   lowPlayers: {
-    warning: '接続中の人数が3人を下回りました。',
+    warning: (min: number) => `接続中の人数が${min}人を下回りました。`,
     hostAsk: 'このまま続けるか、ここで終わるかを選んでください。',
     waitingHost: 'ホストが続けるかどうかを選んでいます。',
     continue: '続行する',

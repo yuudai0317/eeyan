@@ -77,7 +77,7 @@ describe('お題の文面', () => {
     expect(formatYen(1000000)).toBe('100万円');
   });
   it('価格表示のON/OFF', () => {
-    expect(topicText({ item: 'ボールペン', price: 10000 }, true)).toBe('このボールペンを1万円で売ってください');
-    expect(topicText({ item: 'ボールペン', price: 10000 }, false)).toBe('このボールペンを売ってください');
+    expect(topicText({ item: 'ビニール傘', price: 50000 }, true)).toBe('このビニール傘を5万円で売ってください');
+    expect(topicText({ item: 'ビニール傘', price: 50000 }, false)).toBe('このビニール傘を売ってください');
   });
 });

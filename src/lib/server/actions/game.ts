@@ -76,7 +76,7 @@ export function endGame(uid: string, code: string) {
   });
 }
 
-/** 接続人数が3名を下回ったときの「続行／終了」 */
+/** 接続人数が最少人数を下回ったときの「続行／終了」 */
 export function decideLowPlayers(uid: string, code: string, decision: 'continue' | 'end') {
   return withRoom(code, uid, async (ctx) => {
     requireHost(ctx);

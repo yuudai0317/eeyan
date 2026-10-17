@@ -4,9 +4,9 @@ import { canTransition, deadlineFrom, planPitch } from '../phase';
 const now = 1_000_000;
 
 describe('canTransition', () => {
-  it('lobby → prep は3人以上', () => {
-    expect(canTransition('lobby', 'prep', { now, playerCount: 2 })).toBe(false);
-    expect(canTransition('lobby', 'prep', { now, playerCount: 3 })).toBe(true);
+  it('lobby → prep は2人以上', () => {
+    expect(canTransition('lobby', 'prep', { now, playerCount: 1 })).toBe(false);
+    expect(canTransition('lobby', 'prep', { now, playerCount: 2 })).toBe(true);
   });
 
   it('prep → pitch は時間切れか全員準備完了', () => {
