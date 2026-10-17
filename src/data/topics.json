@@ -1,5 +1,4 @@
 [
-  {"id": "t001", "item": "ボールペン", "price": 30000, "note": null},
   {"id": "t002", "item": "使いかけの消しゴム", "price": 3000, "note": null},
   {"id": "t003", "item": "ビニール傘", "price": 50000, "note": "晴れの日に売る"},
   {"id": "t004", "item": "割り箸", "price": 5000, "note": null},
